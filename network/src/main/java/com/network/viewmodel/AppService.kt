@@ -20,7 +20,7 @@ class AppService: ViewModel() {
         return liveData(Dispatchers.IO) {
             emit(ResponseApi.loading())
             try {
-                emit(ResponseApi.success(data = AppService().getUsers()))
+                emit(ResponseApi.success(data = AppService.getInstance().getUsers()))
             } catch (exception: Exception) {
                 emit(ResponseApi.error<Users>(message = exception.message ?: "Error Occurred!"))
             }

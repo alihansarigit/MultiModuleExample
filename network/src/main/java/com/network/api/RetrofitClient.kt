@@ -12,8 +12,8 @@ abstract class RetrofitClient {
             .baseUrl(baseURL)
             .build()
 
-        val retrofitInstance: Endpoint by lazy {
-            retrofit.create(Endpoint::class.java)
+        val retrofitInstance: EndpointInterface by lazy {
+            retrofit.create(EndpointInterface::class.java)
         }
     }
 }
