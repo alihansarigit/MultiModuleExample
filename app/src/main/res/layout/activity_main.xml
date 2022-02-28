@@ -19,6 +19,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <com.ui.CustomImageView
+        android:id="@+id/actMain_img_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
 
     <com.ui.CustomTextView
         android:id="@+id/actMain_txt_stepCounter"

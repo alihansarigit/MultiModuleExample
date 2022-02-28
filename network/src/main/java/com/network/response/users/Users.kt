@@ -1,3 +1,5 @@
 package com.network.response.users
 
-class Users : ArrayList<UsersItem?>()
+class Users : ArrayList<UsersItem>(){
+
+}

@@ -1,6 +1,6 @@
 package com.network.response.users
 
-data class UsersItem(
+ data class UsersItem(
     val avatar: String,
     val createdAt: String,
     val id: String,

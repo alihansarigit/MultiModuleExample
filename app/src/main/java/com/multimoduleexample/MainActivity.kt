@@ -10,6 +10,7 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +18,14 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.network.api.ResponseApi
+import com.network.response.users.Users
+import com.network.response.users.UsersItem
 import com.network.viewmodel.AppService
 import com.ui.CustomButton
 import com.ui.CustomEditText
+import com.ui.CustomImageView
 import com.ui.CustomTextView
 import kotlinx.coroutines.launch
 
@@ -30,6 +35,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     lateinit var button:CustomButton
     lateinit var editText:CustomEditText
     lateinit var textView:CustomTextView
+    lateinit var imageView:CustomImageView
     var running = false
     var sensorManager: SensorManager? = null
     lateinit var viewModel: AppService
@@ -44,18 +50,26 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         button = findViewById(R.id.btnSend)
         editText = findViewById(R.id.actMain_edt_message)
         textView = findViewById(R.id.actMain_txt_stepCounter)
-
+        imageView = findViewById(R.id.actMain_img_picture)
         viewModel = ViewModelProvider(this).get(AppService::class.java)
 
 
-        //TODO İlk elemanın kullanıcı adını EditText'e yazdır.
-        //TODO Unit test için -> edit text içinde yazan değerle aynı mı diye kontrol ettir.
+        //TODO (Yapıldı) İlk elemanın kullanıcı adını EditText'e yazdır.
+        //TODO (UI Test gerekiyormuş Unit olmuyormuş) Unit test için -> edit text içinde yazan değerle aynı mı diye kontrol ettir.
         //TODO Unit test için -> MockService Appserviceten miras alıcak. Hazır responseu kullanıcaz.
+        //TODO Aslında apiye gitmeyecek hazır gson dosyası olacak oradan
+
+        // Mockserver gerekiyormuş ve istenilen UITest
+        // Gerçek anlamda api kullanmak için mockserver ku
+
+        getPicture()
 
         button.onClick = View.OnClickListener {
+
             viewModel.getUsers().observe(this, Observer{ response ->
                 when(response){
-                    is ResponseApi.success->{
+                    is ResponseApi.success-> {
+                        editText.setText(response.data[0]?.name)
                         Toast.makeText(this@MainActivity, response.data.get(0)?.name, Toast.LENGTH_SHORT).show()
                     }
                     is ResponseApi.loading->{
@@ -74,6 +88,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     requestPermissions(arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),0)
                 }
         }
+    }
+
+    fun getPicture(){
+        Glide.with(this@MainActivity)
+            .load("https://i.ytimg.com/vi/wUN6Ffli33U/maxresdefault.jpg")
+            .into(imageView)
     }
 
     suspend fun getUsers(){
