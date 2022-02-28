@@ -1,8 +1,16 @@
 package com.network.test
 
+import android.content.Context
+import androidx.test.platform.app.InstrumentationRegistry
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.network.api.EndpointInterface
 import com.network.response.users.Users
-import com.network.response.users.UsersItem
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.stream.Collectors
 
 
 class MockService private constructor() : EndpointInterface {
@@ -15,23 +23,25 @@ class MockService private constructor() : EndpointInterface {
             return mockService
         }
     }
-
-    override suspend fun getUsers(): Users {
-//        val jsonFile = getResource("test/data.json").file
-//        val gson:Gson = GsonBuilder().create()
-//        val loader = ClassLoader.getSystemClassLoader()
-
-//        val json: String? = Files.lines(Paths.get(loader.getResource("test/data.json").toURI()))
-//            .parallel()
-//            .collect(Collectors.joining())
-//        return gson.fromJson(json,Users::class.java)
-
-        val list = Users().apply {
-            add(UsersItem("a","f","f","name 1"))
-            add(UsersItem("a","fs","fs","fs"))
-            add(UsersItem("ax","fsx","fsx","fsx"))
+    @Throws(Exception::class)
+    fun readTextStream(inputStream: InputStream): String? {
+        val result = ByteArrayOutputStream()
+        val buffer = ByteArray(1024)
+        var length: Int
+        while (inputStream.read(buffer).also { length = it } != -1) {
+            result.write(buffer, 0, length)
         }
+        return result.toString("UTF-8")
+    }
 
-        return list
+    private fun getData():InputStream{
+       return this.javaClass.classLoader.getResourceAsStream("test_data/data.json")
+
+    }
+    override suspend fun getUsers(): Users {
+        val json = readTextStream(getData())
+        val gson: Gson = GsonBuilder().create()
+
+        return gson.fromJson(json,Users::class.java)
     }
 }

@@ -55,12 +55,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
 
         //TODO (Yapıldı) İlk elemanın kullanıcı adını EditText'e yazdır.
-        //TODO (UI Test gerekiyormuş Unit olmuyormuş) Unit test için -> edit text içinde yazan değerle aynı mı diye kontrol ettir.
+        //TODO (UI Test gerekiyormuş Unit olmuyormuş) Unit test için -> edittext içinde yazan değerle aynı mı diye kontrol ettir.
         //TODO Unit test için -> MockService Appserviceten miras alıcak. Hazır responseu kullanıcaz.
         //TODO Aslında apiye gitmeyecek hazır gson dosyası olacak oradan
 
         // Mockserver gerekiyormuş ve istenilen UITest
-        // Gerçek anlamda api kullanmak için mockserver ku
+        // Gerçek anlamda api kullanmak için mockserver kur
 
         getPicture()
 
